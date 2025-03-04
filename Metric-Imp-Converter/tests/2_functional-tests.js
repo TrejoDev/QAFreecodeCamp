@@ -32,8 +32,8 @@ suite('Functional Tests', function() {
           assert.equal(res.status, 400); 
           assert.equal(res.type, 'application/json'); 
           assert.isObject(res.body, 'res.body should be an object'); 
-          assert.property(res.body, 'message', 'res.body should have a message property');
-          assert.equal(res.body.message, 'invalid unit', 'res.body.message should be "invalid unit"'); 
+          assert.property(res.body, 'Error', 'res.body should have a Error property');
+          assert.equal(res.body.Error, 'invalid unit', 'res.body.Error should be "invalid unit"'); 
           done();
         });
     });
@@ -46,8 +46,8 @@ suite('Functional Tests', function() {
           assert.equal(res.status, 400);
           assert.equal(res.type, 'application/json');
           assert.isObject(res.body, 'res.body should be an object');
-          assert.property(res.body, 'message', 'res.body should have a message property');
-          assert.equal(res.body.message, 'invalid number', 'res.body.message should be "invalid number"'); 
+          assert.property(res.body, 'Error', 'res.body should have a Error property');
+          assert.equal(res.body.Error, 'invalid number', 'res.body.Error should be "invalid number"'); 
           done();
         });
     });
@@ -60,8 +60,8 @@ suite('Functional Tests', function() {
           assert.equal(res.status, 400); 
           assert.equal(res.type, 'application/json'); 
           assert.isObject(res.body, 'res.body should be an object'); 
-          assert.property(res.body, 'message', 'res.body should have a message property'); 
-          assert.equal(res.body.message, 'invalid number', 'res.body.message should be "invalid input"'); 
+          assert.property(res.body, 'Error', 'res.body should have a Error property'); 
+          assert.equal(res.body.Error, 'invalid number and unit', 'res.body.Error should be "invalid number and unit"'); 
           done();
         });
     });
