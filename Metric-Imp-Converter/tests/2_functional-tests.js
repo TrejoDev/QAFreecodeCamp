@@ -16,7 +16,7 @@ suite('Functional Tests', function() {
           
           assert.isObject(res.body, 'res.body should be an object'); 
           assert.equal(res.body.initNum, 10, 'res.body.initNum should be 10'); 
-          assert.equal(res.body.initUnit, 'l', 'res.body.initUnit should be "l"'); 
+          assert.equal(res.body.initUnit, 'L', 'res.body.initUnit should be "L"'); 
           assert.approximately(res.body.returnNum, 2.64172, 0.1, 'res.body.returnNum should be approximately 2.64172'); 
           assert.equal(res.body.returnUnit, 'gal', 'res.body.returnUnit should be "gal"'); 
           assert.equal(res.body.string, '10 liters converts to 2.64172 gallons', 'res.body.string should be the correct conversion string'); 

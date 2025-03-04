@@ -40,7 +40,7 @@ suite('Unit Tests', function(){
       var inputStrings = ['gal','GAL','l','L','mi','MI','km','KM','lbs','LBS','kg','KG'];
       inputStrings.forEach(function(input) {
         assert.isString(convertHandler.getUnit(input), 'getUnit should return a string');
-        assert.oneOf(convertHandler.getUnit(input), ['gal','l','mi','km','lbs','kg'], 'getUnit should return a valid unit');
+        assert.oneOf(convertHandler.getUnit(input), ['gal','L','mi','km','lbs','kg'], 'getUnit should return a valid unit');
       });
     });
 
@@ -52,15 +52,15 @@ suite('Unit Tests', function(){
     });
 
     test('convertHandler should return the correct return unit for each valid input unit', function() {
-      var inputUnits = ['gal','l','mi','km','lbs','kg'];
-      var expectedReturnUnits = ['l','gal','km','mi','kg','lbs'];
+      var inputUnits = ['gal','L','mi','km','lbs','kg'];
+      var expectedReturnUnits = ['L','gal','km','mi','kg','lbs'];
       inputUnits.forEach(function(inputUnit, index) {
         assert.equal(convertHandler.getReturnUnit(inputUnit), expectedReturnUnits[index], 'getReturnUnit should return the correct unit for '+inputUnit);
       });
     });
 
     test('convertHandler should correctly return the spelled-out string unit for each valid input unit', function() {
-      var inputUnits = ['gal','l','mi','km','lbs','kg'];
+      var inputUnits = ['gal','L','mi','km','lbs','kg'];
       var expectedSpellOutUnits = ['gallons','liters','miles','kilometers','pounds','kilograms'];
       inputUnits.forEach(function(inputUnit, index) {
         assert.equal(convertHandler.spellOutUnit(inputUnit), expectedSpellOutUnits[index], 'spellOutUnit should return the spelled out unit for '+inputUnit);
@@ -74,7 +74,7 @@ suite('Unit Tests', function(){
     });
 
     test('convertHandler should correctly convert L to gal', function() {
-      let input = [5, 'l']; // [número, unidad] - Entrada para la conversión
+      let input = [5, 'L']; // [número, unidad] - Entrada para la conversión
       let expectedConversion = 1.32086; // Valor esperado de 5 litros en galones (aproximado)
       assert.approximately(convertHandler.convert(input[0], input[1]), expectedConversion, 0.1, 'convert L to gal should be approximately correct');
     });

@@ -36,7 +36,7 @@ function ConvertHandler() {
 
     const validUnits = ['gal', 'l', 'mi', 'km', 'lbs', 'kg']; 
     if (validUnits.includes(unit)) { 
-      return unit; 
+      return (unit === 'l') ? 'L' : unit; 
     } else {
       return undefined; 
     }
@@ -46,9 +46,9 @@ function ConvertHandler() {
     let returnUnit;
     switch (initUnit) {
       case 'gal':
-        returnUnit = 'l';
+        returnUnit = 'L';
         break;
-      case 'l':
+      case 'L':
         returnUnit = 'gal';
         break;
       case 'mi':
@@ -75,7 +75,7 @@ function ConvertHandler() {
       case 'gal':
         spelledUnit = 'gallons';
         break;
-      case 'l':
+      case 'L':
         spelledUnit = 'liters';
         break;
       case 'mi':
@@ -99,35 +99,35 @@ function ConvertHandler() {
   this.convert = function(initNum, initUnit) {
     let result;
     const galToL = 3.78541;
-    const lToGal = 0.264172;
-    const miToKm = 1.60934;
-    const kmToMi = 0.621371;
+    const lToGal = 1 / galToL;
     const lbsToKg = 0.453592;
-    const kgToLbs = 2.20462;
+    const kgToLbs = 1 / lbsToKg;
+    const miToKm = 1.60934;
+    const kmToMi = 1 / miToKm; 
 
     switch (initUnit) {
       case 'gal':
-        result = initNum * galToL;
+        result = (initNum * galToL).toFixed(9); 
         break;
-      case 'l':
-        result = initNum * lToGal;
-        break;
-      case 'mi':
-        result = initNum * miToKm;
-        break;
-      case 'km':
-        result = initNum * kmToMi;
+      case 'L':
+        result = (initNum * lToGal).toFixed(9); 
         break;
       case 'lbs':
-        result = initNum * lbsToKg;
+        result = (initNum * lbsToKg).toFixed(9); 
         break;
       case 'kg':
-        result = initNum * kgToLbs;
+        result = (initNum * kgToLbs).toFixed(9); 
         break;
-      default: 
+      case 'mi':
+        result = (initNum * miToKm).toFixed(9); 
+        break;
+      case 'km':
+        result = (initNum * kmToMi).toFixed(9); 
+        break;
+      default:
         result = undefined; 
     }
-    return result;
+    return Number(result);
   };
   
   this.getString = function(initNum, initUnit, returnNum, returnUnit) {
