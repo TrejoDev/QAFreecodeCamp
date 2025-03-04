@@ -14,20 +14,13 @@ module.exports = function (app) {
       let initNum = convertHandler.getNum(input);
       let initUnit = convertHandler.getUnit(input);
 
-      if( initNum === null && !initUnit )
-      {
-        return res.status(400).json({Error: 'invalid number and unit'}); 
+      if (initNum === null && !initUnit) {
+        return res.status(400).json('invalid number and unit');
+      } else if (initNum === null) {
+        return res.status(400).json('invalid number');
+      } else if (!initUnit) {
+        return res.status(400).json('invalid unit');
       }
-      
-       if (initNum === null) { 
-        return res.status(400).json({Error: 'invalid number'}); 
-      }
-
-      if (!initUnit) { 
-        return res.status(400).json({Error: 'invalid unit'}); 
-      }
-
-      
 
       let returnUnit = convertHandler.getReturnUnit(initUnit);
       let returnNum = convertHandler.convert(initNum, initUnit);
