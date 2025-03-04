@@ -107,22 +107,22 @@ function ConvertHandler() {
 
     switch (initUnit) {
       case 'gal':
-        result = (initNum * galToL).toFixed(9); 
+        result = (initNum * galToL).toFixed(5); 
         break;
       case 'L':
-        result = (initNum * lToGal).toFixed(9); 
+        result = (initNum * lToGal).toFixed(5); 
         break;
       case 'lbs':
-        result = (initNum * lbsToKg).toFixed(9); 
+        result = (initNum * lbsToKg).toFixed(5); 
         break;
       case 'kg':
-        result = (initNum * kgToLbs).toFixed(9); 
+        result = (initNum * kgToLbs).toFixed(5); 
         break;
       case 'mi':
-        result = (initNum * miToKm).toFixed(9); 
+        result = (initNum * miToKm).toFixed(5); 
         break;
       case 'km':
-        result = (initNum * kmToMi).toFixed(9); 
+        result = (initNum * kmToMi).toFixed(5); 
         break;
       default:
         result = undefined; 
