@@ -15,11 +15,11 @@ module.exports = function (app) {
       let initUnit = convertHandler.getUnit(input);
 
       if (initNum === null && !initUnit) {
-        return res.status(400).json('invalid number and unit');
+        return res.type('text/plain').send('invalid number and unit'); 
       } else if (initNum === null) {
-        return res.status(400).json('invalid number');
+        return res.type('text/plain').send('invalid number');        
       } else if (!initUnit) {
-        return res.status(400).json('invalid unit');
+        return res.type('text/plain').send('invalid unit');         
       }
 
       let returnUnit = convertHandler.getReturnUnit(initUnit);
