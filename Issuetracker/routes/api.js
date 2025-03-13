@@ -31,7 +31,6 @@ module.exports = function (app) {
         return match; 
       });
 
-      console.log("Issues filtrados para el proyecto:", projectIssues); // LOG para depuración
       res.status(200).type('application/json').send(projectIssues);
     })
     
@@ -64,13 +63,58 @@ module.exports = function (app) {
 
     
     .put(function (req, res){
-      let project = req.params.project;
-      res.json('put')
-    })
+    let project = req.params.project;
+    let issueId = req.body._id;
+    let updateData = req.body;
+    console.log("PUT request a /api/issues/:project - Project:", project, "Body:", updateData); // LOG para depuración
+
+    if (!issueId) {
+      return res.status(400).type('text').send('Error: missing _id');
+    }
+
+    let issueIndex = issues.findIndex(issue => issue._id === issueId);
+
+    if (issueIndex === -1) {
+      return res.status(404).type('text').send(`Could not update ${issueId}`);
+    }
+
+    let issueToUpdate = issues[issueIndex];
+    let hasUpdates = false;
+
+    for (let key in updateData) {
+      if (updateData.hasOwnProperty(key) && key !== '_id') {
+        issueToUpdate[key] = updateData[key];
+        hasUpdates = true;
+      }
+    }
+
+    if (!hasUpdates) {
+      return res.status(400).type('text').send('No updated field sent');
+    }
+
+    issueToUpdate.updated_on = new Date().toISOString();
+
+    res.status(200).type('application/json').send(issueToUpdate);
+  })
+
     
-    .delete(function (req, res){
-      let project = req.params.project;
-      res.json('delete')
-    });
+  .delete(function (req, res){
+  let project = req.params.project;
+  let issueId = req.body._id;
+
+  if (!issueId) {
+    return res.status(400).type('text').send('Error: missing _id');
+  }
+
+  let issueIndex = issues.findIndex(issue => issue._id === issueId);
+
+  if (issueIndex === -1) {
+    return res.status(404).type('text').send(`Could not delete ${issueId}`);
+  }
+
+  issues.splice(issueIndex, 1);
+
+  res.status(200).type('application/json').send({ result: 'success', _id: issueId });
+});
     
 };
