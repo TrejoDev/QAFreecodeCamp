@@ -1,81 +1,80 @@
 'use strict';
 
-let issues = []; 
-let issueCount = 0; 
+let issues = [];
+let issueCount = 0;
 
-module.exports = function (app) { 
+module.exports = function (app) {
 
   app.route('/api/issues/:project')
-  
+
     .get(function (req, res){
       let project = req.params.project;
-      let queryParams = req.query; 
-      
+      let queryParams = req.query;
+
       let projectIssues = issues.filter(issue => {
-        let match = true; 
+        let match = true;
 
         for (let key in queryParams) {
-          if (queryParams.hasOwnProperty(key)) { 
+          if (queryParams.hasOwnProperty(key)) {
             let value = queryParams[key];
-            if (issue.hasOwnProperty(key)) { 
-              if (issue[key] !== value) { 
-                match = false; 
-                break; 
+            if (issue.hasOwnProperty(key)) {
+              if (issue[key].toString() !== value) {
+                match = false;
+                break;
               }
             } else {
-              match = false; 
+              match = false;
               break;
             }
           }
         }
-        return match; 
+        return match;
       });
 
-      res.status(200).type('application/json').send(projectIssues);
+      res.json(projectIssues); 
     })
-    
+
     .post(function (req, res){
       let project = req.params.project;
-      let issueData = req.body; 
+      let issueData = req.body;
 
       if (!issueData.issue_title || !issueData.issue_text || !issueData.created_by) {
-        return res.status(400).type('text').send('Error: missing required field(s)'); 
+        return res.status(400).type('text/plain').send('required field(s) missing'); 
       }
-
-      issueCount++; 
+     
+      issueCount++;
       let newIssue = {
-        _id: issueCount.toString(), 
+        _id: issueCount.toString(),
         issue_title: issueData.issue_title,
         issue_text: issueData.issue_text,
         created_by: issueData.created_by,
-        assigned_to: issueData.assigned_to || '', 
-        status_text: issueData.status_text || 'Open', 
+        assigned_to: issueData.assigned_to || '',
+        status_text: issueData.status_text || '', 
         open: true,
-        created_on: new Date().toISOString(), 
-        updated_on: new Date().toISOString(), 
-        project: project 
+        created_on: new Date(),
+        updated_on: new Date(),
+        project: project
       };
 
       issues.push(newIssue);
 
-      res.status(201).type('application/json').send(newIssue); 
+      res.status(201).json(newIssue); 
   })
 
-    
+
     .put(function (req, res){
     let project = req.params.project;
     let issueId = req.body._id;
     let updateData = req.body;
-    console.log("PUT request a /api/issues/:project - Project:", project, "Body:", updateData); // LOG para depuración
 
     if (!issueId) {
-      return res.status(400).type('text').send('Error: missing _id');
+      return res.status(400).type('text/plain').send('{"error": "missing _id"}'); 
     }
 
     let issueIndex = issues.findIndex(issue => issue._id === issueId);
 
     if (issueIndex === -1) {
-      return res.status(404).type('text').send(`Could not update ${issueId}`);
+      return res.status(404).type('text/plain').send(`{"error": "could not update", "_id": "${issueId}"}`); 
     }
 
     let issueToUpdate = issues[issueIndex];
@@ -89,32 +88,32 @@ module.exports = function (app) {
     }
 
     if (!hasUpdates) {
-      return res.status(400).type('text').send('No updated field sent');
+      return res.status(400).type('text/plain').send(`{"error": "no update field(s) sent", "_id": "${issueId}"}`); 
     }
 
-    issueToUpdate.updated_on = new Date().toISOString();
+    issueToUpdate.updated_on = new Date();
 
-    res.status(200).type('application/json').send(issueToUpdate);
+    res.status(200).json({ result: 'successfully updated', '_id': issueId }); 
   })
 
-    
+
   .delete(function (req, res){
   let project = req.params.project;
   let issueId = req.body._id;
 
   if (!issueId) {
-    return res.status(400).type('text').send('Error: missing _id');
+    return res.status(400).type('text/plain').send('{"error": "missing _id"}'); 
   }
 
   let issueIndex = issues.findIndex(issue => issue._id === issueId);
 
   if (issueIndex === -1) {
-    return res.status(404).type('text').send(`Could not delete ${issueId}`);
+    return res.status(404).type('text/plain').send(`{"error": "could not delete", "_id": "${issueId}"}`); 
   }
 
   issues.splice(issueIndex, 1);
 
-  res.status(200).type('application/json').send({ result: 'success', _id: issueId });
-});
-    
-};
+  res.json({ result: 'successfully deleted', '_id': issueId }); 
+}
+
+)};
