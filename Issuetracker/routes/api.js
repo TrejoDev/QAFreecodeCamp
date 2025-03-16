@@ -65,33 +65,35 @@ let issues = [];
     if (!_id) {
       return res.json({error: 'missing _id'}); 
     }
-
-    let issueIndex = issues.findIndex(issue => issue._id === _id);
-
-    if (issueIndex === -1) {
-      return res.json({error: 'could not update', '_id': _id }); 
-    }
     
-
-    let issueToUpdate = issues[issueIndex];
     let hasUpdates = false;
-
     for (let key in updateData) {
-      if (updateData.hasOwnProperty(key) && key !== '_id') {
-        if (updateData[key] !== undefined && updateData[key] !== '') { 
-          issueToUpdate[key] = updateData[key];
-          hasUpdates = true;
-        }
+      if (updateData.hasOwnProperty(key) && key !== '_id' && updateData[key] !== undefined && updateData[key] !== '') {
+        hasUpdates = true;
+        break; 
       }
     }
 
     if (!hasUpdates) {
-      return res.json({error: 'no update field(s) sent', '_id': _id }); 
+      return res.json({error: 'no update field(s) sent', '_id': _id });
+    }
+
+    let issueIndex = issues.findIndex(issue => issue._id === _id);
+
+    if (issueIndex === -1) {
+      return res.json({error: 'could not update', '_id': _id });
+    }
+
+    let issueToUpdate = issues[issueIndex];
+    for (let key in updateData) {
+      if (updateData.hasOwnProperty(key) && key !== '_id' && updateData[key] !== undefined && updateData[key] !== '') {
+        issueToUpdate[key] = updateData[key];
+      }
     }
 
     issueToUpdate.updated_on = new Date().toISOString();
 
-    res.json({ result: 'successfully updated', '_id': _id }); 
+    res.json({ result: 'successfully updated', '_id': _id });
   })
 
   .delete(function (req, res){
