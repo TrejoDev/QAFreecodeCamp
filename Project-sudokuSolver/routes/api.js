@@ -23,7 +23,8 @@ module.exports = function (app) {
       } 
 
       const coordinateRegex = /^[A-I][1-9]$/;
-
+      // console.log(coordinate);
+      
       if (!coordinateRegex.test(coordinate.toUpperCase())) {
         return res.json({ error: 'Invalid coordinate' });
       } 
