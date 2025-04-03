@@ -3,6 +3,8 @@ const assert = chai.assert;
 
 const Translator = require("../components/translator.js");
 const translator = new Translator();
+// const reversedTitles = translator.reverseDictionary(require("../components/american-to-british-titles.js"));
+// console.log(reversedTitles);
 
 suite("Unit Tests", () => {
     suite("American to British English Translation", () => {
@@ -153,6 +155,7 @@ suite("Unit Tests", () => {
                 "Have you met Mrs Kalyani?",
                 "british-to-american"
             );
+            console.log("Traducción obtenida:", translation);
             assert.strictEqual(translation, "Have you met Mrs. Kalyani?");
         });
 

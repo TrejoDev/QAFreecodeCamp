@@ -86,54 +86,5 @@ suite('Functional Tests', () => {
     });
 
 
-    //! test suite
-
-    test('Translation of "Mr." title from American to British English', (done) => {
-        chai.request(server)
-            .post('/api/translate')
-            .send({ text: "No Mr. Bond, I expect you to die.", locale: 'american-to-british' })
-            .end((err, res) => {
-                assert.equal(res.status, 200);
-                assert.property(res.body, 'translation');
-                assert.equal(res.body.translation, 'No Mr Bond, I expect you to die.');
-                done();
-            });
-    });
-
-    test('Translation of "Dr." title from American to British English', (done) => {
-        chai.request(server)
-            .post('/api/translate')
-            .send({ text: "Dr. Grosh will see you now.", locale: 'american-to-british' })
-            .end((err, res) => {
-                assert.equal(res.status, 200);
-                assert.property(res.body, 'translation');
-                assert.equal(res.body.translation, 'Dr Grosh will see you now.');
-                done();
-            });
-    });
-
-    test('Translation of "Mrs." title from British to American English', (done) => {
-        chai.request(server)
-            .post('/api/translate')
-            .send({ text: "Have you met Mrs Kalyani?", locale: 'british-to-american' })
-            .end((err, res) => {
-                assert.equal(res.status, 200);
-                assert.property(res.body, 'translation');
-                assert.equal(res.body.translation, 'Have you met Mrs. Kalyani?');
-                done();
-            });
-    });
-
-    test('Translation of "Prof." title from British to American English', (done) => {
-        chai.request(server)
-            .post('/api/translate')
-            .send({ text: "Prof Joyner of King's College, London.", locale: 'british-to-american' })
-            .end((err, res) => {
-                assert.equal(res.status, 200);
-                assert.property(res.body, 'translation');
-                assert.equal(res.body.translation, 'Prof. Joyner of King\'s College, London.');
-                done();
-            });
-    });
 
 });

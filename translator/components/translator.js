@@ -40,11 +40,19 @@ class Translator {
     };
   }
 
+  // reverseDictionary(dictionary) {
+  //   return Object.entries(dictionary).reduce(
+  //     (acc, [key, value]) => ({ ...acc, [value]: key }),
+  //     {}
+  //   );
+  // }
+
   reverseDictionary(dictionary) {
-    return Object.entries(dictionary).reduce(
-      (acc, [key, value]) => ({ ...acc, [value]: key }),
-      {}
-    );
+    return Object.entries(dictionary).reduce((acc, [key, value]) => {
+      // Asegurar que no haya reordenamientos extraños con puntos
+      acc[value.toLowerCase()] = key;
+      return acc;
+    }, {});
   }
 
   escapeRegExp(string) {
@@ -55,16 +63,14 @@ class Translator {
     return Object.keys(dictionary).reduce((acc, key) => {
       const value = dictionary[key];
 
+      // Expresión regular que respeta el uso de títulos
       const regex = caseSensitive
         ? new RegExp(`\\b${this.escapeRegExp(key)}\\b`, "g")
-        : new RegExp(this.escapeRegExp(key), "gi");
+        : new RegExp(`\\b${this.escapeRegExp(key)}\\b`, "gi");
 
       return acc.replace(regex, (match) => {
-
-        if (title && match[0] === match[0].toUpperCase()) {
-          return value.charAt(0).toUpperCase() + value.slice(1);
-
-        } else if (caseSensitive && match[0] === match[0].toUpperCase()) {
+        if (title) {
+          // Asegurar que el punto se coloque correctamente en títulos
           return value.charAt(0).toUpperCase() + value.slice(1);
         }
         return value;
@@ -125,32 +131,17 @@ class Translator {
     const highlightedWords = translatedWords.map((translatedWord, index) => {
       const originalWord = originalWords[index] || "";
 
-      // Check for time format change specifically
-      const timeRegex = /(\d{1,2})[:.](\d{2})/;
-      const originalTimeMatch = originalWord.match(timeRegex);
-      const translatedTimeMatch = translatedWord.match(timeRegex);
-
-      if (originalTimeMatch && translatedTimeMatch && originalWord.trim() !== translatedWord.trim()) {
+      // Comparación sin alterar signos de puntuación
+      if (originalWord.trim() !== translatedWord.trim() && translatedWord.trim() !== "") {
         return `<span class="highlight">${translatedWord}</span>`;
       }
 
-      const originalClean = originalWord
-        .trim()
-        .toLowerCase()
-        .replace(/[^\w\s]/g, "");
-      const translatedClean = translatedWord
-        .trim()
-        .toLowerCase()
-        .replace(/[^\w\s]/g, "");
-
-      if (originalClean !== translatedClean && translatedWord.trim() !== "") {
-        return `<span class="highlight">${translatedWord}</span>`;
-      }
       return translatedWord;
     });
 
     return highlightedWords.join("");
   }
+
 }
 
 module.exports = Translator;
