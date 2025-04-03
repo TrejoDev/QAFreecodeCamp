@@ -54,12 +54,16 @@ class Translator {
   applyTranslation(text, dictionary, caseSensitive = false, title = false) {
     return Object.keys(dictionary).reduce((acc, key) => {
       const value = dictionary[key];
+
       const regex = caseSensitive
         ? new RegExp(`\\b${this.escapeRegExp(key)}\\b`, "g")
         : new RegExp(this.escapeRegExp(key), "gi");
+
       return acc.replace(regex, (match) => {
+
         if (title && match[0] === match[0].toUpperCase()) {
           return value.charAt(0).toUpperCase() + value.slice(1);
+
         } else if (caseSensitive && match[0] === match[0].toUpperCase()) {
           return value.charAt(0).toUpperCase() + value.slice(1);
         }
@@ -120,6 +124,16 @@ class Translator {
 
     const highlightedWords = translatedWords.map((translatedWord, index) => {
       const originalWord = originalWords[index] || "";
+
+      // Check for time format change specifically
+      const timeRegex = /(\d{1,2})[:.](\d{2})/;
+      const originalTimeMatch = originalWord.match(timeRegex);
+      const translatedTimeMatch = translatedWord.match(timeRegex);
+
+      if (originalTimeMatch && translatedTimeMatch && originalWord.trim() !== translatedWord.trim()) {
+        return `<span class="highlight">${translatedWord}</span>`;
+      }
+
       const originalClean = originalWord
         .trim()
         .toLowerCase()

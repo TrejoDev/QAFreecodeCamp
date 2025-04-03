@@ -90,4 +90,135 @@ suite("Unit Tests", () => {
             assert.strictEqual(translation, "Lunch is at 12.15 today.");
         });
     });
+
+    suite("British to American English Translation", () => {
+        test("Translate We watched the footie match for a while. to American English", () => {
+            const { translation } = translator.translate(
+                "We watched the footie match for a while.",
+                "british-to-american"
+            );
+            assert.strictEqual(translation, "We watched the soccer match for a while.");
+        });
+
+        test("Translate Paracetamol takes up to an hour to work. to American English", () => {
+            const { translation } = translator.translate(
+                "Paracetamol takes up to an hour to work.",
+                "british-to-american"
+            );
+            assert.strictEqual(translation, "Tylenol takes up to an hour to work.");
+        });
+
+        test("Translate First, caramelise the onions. to American English", () => {
+            const { translation } = translator.translate(
+                "First, caramelise the onions.",
+                "british-to-american"
+            );
+            assert.strictEqual(translation, "First, caramelize the onions.");
+        });
+
+        test("Translate I spent the bank holiday at the funfair. to American English", () => {
+            const { translation } = translator.translate(
+                "I spent the bank holiday at the funfair.",
+                "british-to-american"
+            );
+            assert.strictEqual(translation, "I spent the public holiday at the amusement park.");
+        });
+
+        test("Translate I had a bicky then went to the chippy. to American English", () => {
+            const { translation } = translator.translate(
+                "I had a bicky then went to the chippy.",
+                "british-to-american"
+            );
+            assert.strictEqual(translation, "I had a cookie then went to the fish-and-fish-and-chip shop.");
+        });
+
+        test("Translate I've just got bits and bobs in my bum bag. to American English", () => {
+            const { translation } = translator.translate(
+                "I've just got bits and bobs in my bum bag.",
+                "british-to-american"
+            );
+            assert.strictEqual(translation, "I've just got odds and ends in my fanny pack.");
+        });
+
+        test("Translate The car boot sale at Boxted Airfield was called off. to American English", () => {
+            const { translation } = translator.translate(
+                "The car boot sale at Boxted Airfield was called off.",
+                "british-to-american"
+            );
+            assert.strictEqual(translation, "The swap meet at Boxted Airfield was called off.");
+        });
+
+        test("Translate Have you met Mrs Kalyani? to American English", () => {
+            const { translation } = translator.translate(
+                "Have you met Mrs Kalyani?",
+                "british-to-american"
+            );
+            assert.strictEqual(translation, "Have you met Mrs. Kalyani?");
+        });
+
+        test("Translate Prof Joyner of King's College, London. to American English", () => {
+            const { translation } = translator.translate(
+                "Prof Joyner of King's College, London.",
+                "british-to-american"
+            );
+            assert.strictEqual(translation, "Prof. Joyner of King's College, London.");
+        });
+
+        test("Translate Tea time is usually around 4 or 4.30. to American English", () => {
+            const { translation } = translator.translate(
+                "Tea time is usually around 4 or 4.30.",
+                "british-to-american"
+            );
+            assert.strictEqual(translation, "Tea time is usually around 4 or 4:30.");
+        });
+
+    });
+
+    suite("American to British English Translation", () => {
+
+        test("Highlight translation in Mangoes are my favorite fruit.", () => {
+            const { translation } = translator.translate(
+                "Mangoes are my favorite fruit.",
+                "american-to-british"
+            );
+            assert.strictEqual(
+                translator.highlight("Mangoes are my favorite fruit.", translation),
+                'Mangoes are my <span class="highlight">favourite</span> fruit.'
+            );
+        });
+
+        test("Highlight translation in I ate yogurt for breakfast.", () => {
+            const { translation } = translator.translate(
+                "I ate yogurt for breakfast.",
+                "american-to-british"
+            );
+            assert.strictEqual(
+                translator.highlight("I ate yogurt for breakfast.", translation),
+                'I ate <span class="highlight">yoghurt</span> for breakfast.'
+            );
+        });
+
+        test("Highlight translation in We watched the footie match for a while.", () => {
+            const { translation } = translator.translate(
+                "We watched the footie match for a while.",
+                "british-to-american"
+            );
+            assert.strictEqual(
+                translator.highlight("We watched the footie match for a while.", translation),
+                'We watched the <span class="highlight">soccer</span> match for a while.'
+            );
+        });
+
+        test("Highlight translation in Paracetamol takes up to an hour to work.", () => {
+            const { translation } = translator.translate(
+                "Paracetamol takes up to an hour to work.",
+                "british-to-american"
+            );
+            assert.strictEqual(
+                translator.highlight("Paracetamol takes up to an hour to work.", translation),
+                '<span class="highlight">Tylenol</span> takes up to an hour to work.'
+            );
+        });
+
+    });
 });
